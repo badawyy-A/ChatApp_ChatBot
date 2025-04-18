@@ -2,8 +2,12 @@ from flask import Flask, request, jsonify
 from model import GeminiAPI
 from data_collecting import UserInfoCollector
 from utils.session_manager import SessionManager
+from googletrans import Translator
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # Optional: Enable if you're calling this from a frontend like React or Vue
+
 gemini = GeminiAPI()
 data_collector = UserInfoCollector()
 session_manager = SessionManager()
@@ -11,9 +15,19 @@ session_manager = SessionManager()
 
 @app.route('/api/start_chat', methods=['POST'])
 def start_chat():
-    user_data = request.get_json()  # Get user data from the request body
-    session_id = session_manager.create_session(user_data)
-    return jsonify({"session_id": session_id, "message": "Chat session started."}), 201
+    try:
+        user_data = request.get_json()
+        if not user_data:
+            return jsonify({"error": "User data is required"}), 400
+
+        session_id = session_manager.create_session(user_data)
+        return jsonify({
+            "session_id": session_id,
+            "message": "Chat session started."
+        }), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route('/api/chat/<session_id>', methods=['POST'])
 def chat(session_id):
@@ -58,6 +72,25 @@ def chat(session_id):
         session_manager.update_session_chat_history(session_id, user_input, response)
 
         return jsonify({"response": response}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/translator/', methods=['POST'])
+def do_translation():
+    try:
+        data = request.get_json()
+        text = data.get('text')
+        target_lang = data.get('target_lang')
+
+        if not text or not target_lang:
+            return jsonify({"error": "Both 'text' and 'target_lang' are required"}), 400
+
+        translator = Translator()
+        result = translator.translate(text, dest=target_lang)
+
+        return jsonify({"translated_text": result.text}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
