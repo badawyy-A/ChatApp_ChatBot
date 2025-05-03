@@ -1,4 +1,5 @@
 # API Documentation:
+# Imortant Note : only sported langs are "ar" and "en"
 ### Start New Chat Session
 
 ## Endpoint: `/api/start_chat`
@@ -22,16 +23,31 @@ Initiates a new chat session. This endpoint requires the client to specify the d
 
 *   **Example Request Body:**
     ```json
-    {
-      "language": "en-US",
-      "user_id": "optional_user_identifier_123",
-      "client_type": "web"
-    }
-    ```
-    ```json
-    {
-      "language": "ar-SA"
-    }
+        {
+            "name": "Mohamed Ahmed",
+            "age_range": "22-25",
+            "gender": "Male",
+            "location": "Cairo, Egypt",
+            "language": "ar",
+            "interests": [
+                "football",
+                "watching movies",
+                "hanging out with friends",
+                "listening to music"
+            ],
+            "favorites": [
+                "koshari",
+                "Umm Kulthum music",
+                "Al Ahly football club"
+            ],
+            "goals": "Start my own business",
+            "communication_style": "casual",
+            "personality": "extroverted",
+            "values": "Family, friendship, hard work",
+            "life_situation": "University student",
+            "relationship_status": "In a relationship",
+            "challenges": "Finding a good job after graduation"
+        }
     ```
 
 ---
