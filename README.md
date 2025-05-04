@@ -482,7 +482,7 @@ Translates text or speech from a source language (can be auto-detected) to a spe
 **Method:** `POST`
 
 **Description:**
-Classifies a given URL as either 'Safe' or 'Unsafe'. This endpoint utilizes both a pre-trained local machine learning model (`rf_model.pkl`) and a large language model (Gemini) to determine the safety status. If the predictions from both models differ, the Gemini prediction is prioritized.
+Classifies a given URL as either 'Safe' or 'Unsafe'. This endpoint utilizes both a pre-trained local machine learning model (`rf_model.pkl`) 
 
 ---
 
